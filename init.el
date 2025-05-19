@@ -69,7 +69,7 @@
     :hook ((prog-mode . combobulate-mode))
     ;; Amend this to the directory where you keep Combobulate's source
     ;; code.
-    :load-path ("/home/kevin/workspace/combobulate")))
+    :load-path ("~/workspace/combobulate")))
 
 
 
