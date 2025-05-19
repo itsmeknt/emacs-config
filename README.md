@@ -157,6 +157,6 @@ I assume you know the basic Emac hot keys. These are the slightly more advanced 
 
 `C-c a g` - open Gptel buffer menu
 
-`C-c a RET` - send all text from beginning of buffer up until the cursor to Gptel
+`C-c a RET` - send selected text, or if none selected, all text from beginning of buffer up until the cursor, to Gptel
 
 `C-c a DEL` - after highlighting text, this will open a buffer where you can prompt Gptel to rewrite the text (e.g. translate it to another language)
