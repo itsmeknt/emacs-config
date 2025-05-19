@@ -145,7 +145,7 @@ I assume you know the basic Emac hot keys. These are the slightly more advanced 
 
 `M-? ` - find references
 
-`M-g M-g` - show project errors window
+`M-g M-l` - list all project errors
 
 `M-g M-n/p` - go to next/prev error
 
