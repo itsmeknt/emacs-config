@@ -2,20 +2,20 @@
 
 This is my personal emacs set up as of May 19, 2025. I use the following packages:
 
--Magit - git management
--imenu-list - source code outline
--corfu-terminal - code autocomplete
--vterm
--treesitter - proper grammar parsing in Emacs, fixes code highlights and enables combobulate
--combobulate - structured code navgiation and editing
--eglot - LSP for code language analysis
--eglot-booster + emacs-lsp-booster - faster eglot performance
--gptel - simple and general LLM interface
--aidermacs - LLM with source code context for code-specific tasks
+1. Magit - git management
+2. imenu-list - source code outline
+3. corfu-terminal - code autocomplete
+4. vterm
+5. treesitter - proper grammar parsing in Emacs, fixes code highlights and enables combobulate
+6. combobulate - structured code navgiation and editing
+7. eglot - LSP for code language analysis
+8. eglot-booster + emacs-lsp-booster - faster eglot performance
+9. gptel - simple and general LLM interface
+10. aidermacs - LLM with source code context for code-specific tasks
 
 # Installation
 
-Install the following system dependencies, then add the init.el content into your init.el (typically `~/.emacs` or `~/.emacs.d/init.el`)
+Install the following system dependencies, then add the init.el content into your init.el file (typically `~/.emacs` itself or `~/.emacs.d/init.el`)
 
 ### System Dependencies
 
@@ -23,13 +23,13 @@ Install the following system dependencies, then add the init.el content into you
 2. `git clone https://github.com/mickeynp/combobulate?tab=readme-ov-file  # note the dirpath`
 3. Install the Jedi LSP: https://github.com/pappasam/jedi-language-server
 4. `cargo install emacs-lsp-booster`
-5. The AI features (gptel, aidermacs) assume you have a local LLM running via llama.cpp's `llama-server` (OpenAI API-compatible server) on `http://localhost:8080`
+5. The AI features configured in `init.el` (gptel, aidermacs) assume you have a local LLM running via llama.cpp's `llama-server` (OpenAI API-compatible server) on `http://localhost:8080`
 
 ### Install the following packages in Emacs
 
 1. Open emacs
 2. `M-x package-install <RET> <package_name>`
-3. Install these:
+3. Install these packages:
    1. `magit`
    2. `imenu-list`
    3. `corfu-terminal`
@@ -87,6 +87,7 @@ The `init.el` file is typically `~/.emacs` itself, or `~/.emacs.d/init.el`.
 
 Copy the contents of the `init.el` from this repo onto your `init.el`.
 
+You have to open the `init.el` and edit one place in line 72 to point to the dirpath of the Combobulate git repo you cloned during the system dependencies step 2.
 
 # Emacs hotkey cheat sheet
 
@@ -95,39 +96,67 @@ I assume you know the basic Emac hot keys. These are the slightly more advanced 
 ### General hotkeys
 
 `C-h b` - list all keyboard commands available in buffer
+
 `M-m` - move to beginning of line, past indent tabs
+
 `M-r` - move cursor to middle/top/bottom page
-`M-a/e` - move to beginning/end of block
-`C-M-a/e` - move to beginning/end of function definition
-`C-M-u/d/n/p` - move up/down/next/prev parenthesis grouping
-`C-x r SPC <register_id>` - set register
+
+`C-x r SPC <register_id>` - set register at cursor
+
 `C-x r j <register_id>` - jump cursor to register
-`C-x r m` - set bookmark
-`C-x r b` - open bookmark
-`C-x r l` - list bookmark
-`C-x C-x` - move to end/beginning of selected region
+
+`C-x r m` - set bookmark at cursor
+
+`C-x r b` - jump cursor to bookmark
+
+`C-x r l` - list bookmarks
+
+`C-x C-x` - move to beginning/end of selected region
+
 `F3` - start macro
+
 `F4` - end macro / play back macro
 
 ### Combobulate hotkeys:
 
-`M-p/n` - next/prev identifier
-`C-c o t x` - replace same-text (region-selectable)
+`M-a/e` - move to beginning/end of node in concrete syntax tree
+
+`C-M-a/e` - move to beginning/end of function definition
+
+`C-M-u/d/n/p` - move up/down/next sibling/prev sibling of the concrete syntax tree parse of the code
+
+`M-p/n` - next/prev instance of identifier
+
+`M-h` - select current node. Press again to walk up the concrete syntax tree (e.g. variable -> expression -> function block -> class definition)
+
+`C-c o t x` - replace same-text (region-selectable, e.g. local variable under a function block)
+
 `C-c o t s` - replace sibling nodes
-`C-c o t t` - replace same-type (region-selectable)
+
+`C-c o t t` - replace same-type (region-selectable, e.g. all local variables under a function block)
 
 ### LSP hotkeys:
 
 `M-' ` - open imenu list (project structure)
+
 `M-. ` - open definition
+
 `M-/ ` - open docs of function
+
 `M-? ` - find references
+
 `M-g M-g` - show project errors window
+
 `M-g M-n/p` - go to next/prev error
+
+`TAB` - autocomplete. Press repeatedly to cycle through candidates. Enter to accept.
 
 ### AI hotkeys:
 
 `C-c a a` - open Aidermacs main menu
+
 `C-c a g` - open Gptel buffer menu
+
 `C-c a RET` - send all text from beginning of buffer up until the cursor to Gptel
-`C-c a DEL` - after highlighting text, this will open a buffer to prompt Gptel to rewrite the text (e.g. translate it to another language)
+
+`C-c a DEL` - after highlighting text, this will open a buffer where you can prompt Gptel to rewrite the text (e.g. translate it to another language)
