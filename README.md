@@ -141,7 +141,7 @@ I assume you know the basic Emac hot keys. These are the slightly more advanced 
 
 `M-. ` - open definition
 
-`M-/ ` - open docs of function
+`C-h . ` - open docs of current hovered symbol
 
 `M-? ` - find references
 

@@ -160,7 +160,6 @@
 (keymap-global-set "C-r" 'isearch-backward-regexp)
 (keymap-global-set "M-'" 'imenu-list-smart-toggle)
 
-(keymap-global-set "M-/" 'eldoc)
 (keymap-global-set "M-." 'xref-find-definitions-other-window)
 (keymap-global-set "M-g M-l" 'flymake-show-project-diagnostics)
 (keymap-global-set "M-g M-n" 'flymake-goto-next-error)
