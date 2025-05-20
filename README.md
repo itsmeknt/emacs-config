@@ -119,7 +119,23 @@ I assume you know the basic Emac hot keys. These are the slightly more advanced 
 
 `F4` - end macro / play back macro
 
-`C-x g` - magit
+### Magit hotkeys:
+
+`C-x g` - open magit menu
+
+Inside the menu:
+
+`TAB` - expand/collapse file diff
+
+`s/u` - stage/unstage current selected file
+
+`S/U` - stage/unstage all files
+
+`c c` - commit staged files, begin writing commit message
+
+`C-c C-c` - save commit after writing commit message
+
+`P u` - push to origin
 
 ### Combobulate hotkeys:
 
