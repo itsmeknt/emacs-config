@@ -95,6 +95,8 @@ I assume you know the basic Emac hot keys. These are the slightly more advanced 
 
 ### General hotkeys
 
+`C-x s d`  - show diff of buffer and its original file before saving
+
 `C-h b` - list all keyboard commands available in buffer
 
 `M-m` - move to beginning of line, past indent tabs
@@ -117,6 +119,8 @@ I assume you know the basic Emac hot keys. These are the slightly more advanced 
 
 `F4` - end macro / play back macro
 
+`C-x g` - magit
+
 ### Combobulate hotkeys:
 
 `M-a/e` - move to beginning/end of node in concrete syntax tree
@@ -137,17 +141,19 @@ I assume you know the basic Emac hot keys. These are the slightly more advanced 
 
 ### LSP hotkeys:
 
-`M-' ` - open imenu list (project structure)
+`C-h . ` - open docs of current hovered symbol
 
 `M-. ` - open definition
 
-`C-h . ` - open docs of current hovered symbol
-
 `M-? ` - find references
 
-`M-g M-l` - list all project errors
+`M-l M-l` - open imenu list (project structure)
 
-`M-g M-n/p` - go to next/prev error
+`M-l M-r` - refactor / rename symbol across project
+
+`M-l M-e` - list all project errors
+
+`M-l M-n/p` - go to next/prev error
 
 `TAB` - autocomplete. Press repeatedly to cycle through candidates. Enter to accept.
 
@@ -155,7 +161,7 @@ I assume you know the basic Emac hot keys. These are the slightly more advanced 
 
 `C-c a a` - open Aidermacs main menu
 
-`C-c a g` - open Gptel buffer menu
+`C-c a g` - open Gptel buffer
 
 `C-c a RET` - send selected text, or if none selected, all text from beginning of buffer up until the cursor, to Gptel
 

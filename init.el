@@ -69,7 +69,7 @@
     :hook ((prog-mode . combobulate-mode))
     ;; Amend this to the directory where you keep Combobulate's source
     ;; code.
-    :load-path ("~/workspace/combobulate")))
+    :load-path ("/home/kevin/workspace/combobulate")))
 
 
 
@@ -145,12 +145,17 @@
   (corfu-terminal-mode +1))
 
 
+
 (use-package eglot-booster
 	:after eglot
 	:config	(eglot-booster-mode))
 
+(use-package markdown-mode
+  :ensure t)
 
-
+(setq eglot-ignored-server-capabilities '(:inlayHintProvider))
+(setq eldoc-echo-area-prefer-doc-buffer t
+      eldoc-echo-area-use-multiline-p nil)
 
 (use-package vterm
     :ensure t)
@@ -158,12 +163,14 @@
 (keymap-global-set "M-%" 'query-replace-regexp)
 (keymap-global-set "C-s" 'isearch-forward-regexp)
 (keymap-global-set "C-r" 'isearch-backward-regexp)
-(keymap-global-set "M-'" 'imenu-list-smart-toggle)
 
+(global-set-key (kbd "M-l") nil)
 (keymap-global-set "M-." 'xref-find-definitions-other-window)
-(keymap-global-set "M-g M-l" 'flymake-show-project-diagnostics)
-(keymap-global-set "M-g M-n" 'flymake-goto-next-error)
-(keymap-global-set "M-g M-p" 'flymake-goto-prev-error)
+(keymap-global-set "M-l M-l" 'imenu-list-smart-toggle)
+(keymap-global-set "M-l M-r" 'eglot-rename)
+(keymap-global-set "M-l M-e" 'flymake-show-project-diagnostics)
+(keymap-global-set "M-l M-n" 'flymake-goto-next-error)
+(keymap-global-set "M-l M-p" 'flymake-goto-prev-error)
 
 
 (add-hook 'python-ts-mode-hook 'eglot-ensure)
@@ -224,7 +231,7 @@
      (html-mode . html-ts-mode) (mhtml-mode . html-ts-mode)
      (python-mode . python-ts-mode)
      (typescript-mode . typescript-ts-mode) (yaml-mode . yaml-ts-mode)))
- '(package-selected-packages '(aidermacs eglot-booster gptel vterm))
+ '(package-selected-packages '(aidermacs eglot-booster gptel vterm yasnippet))
  '(package-vc-selected-packages
    '((eglot-booster :vc-backend Git :url
 		    "https://github.com/jdtsmith/eglot-booster"))))
