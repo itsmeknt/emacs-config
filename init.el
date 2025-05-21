@@ -71,6 +71,7 @@
     ;; code.
     :load-path ("/home/kevin/workspace/combobulate")))
 
+(setq magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1)
 
 
 
