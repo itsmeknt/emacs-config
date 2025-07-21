@@ -16,6 +16,7 @@
              ;; are known to work with Combobulate *and* Emacs.
              '((css . ("https://github.com/tree-sitter/tree-sitter-css" "v0.20.0"))
                (go . ("https://github.com/tree-sitter/tree-sitter-go" "v0.20.0"))
+	       (gomod . ("https://github.com/camdencheek/tree-sitter-go-mod" "v1.1.0"))
                (html . ("https://github.com/tree-sitter/tree-sitter-html" "v0.20.1"))
                (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript" "v0.20.1" "src"))
                (json . ("https://github.com/tree-sitter/tree-sitter-json" "v0.20.2"))
@@ -161,6 +162,8 @@
 (use-package vterm
     :ensure t)
 
+(xclip-mode 1)
+
 (keymap-global-set "M-%" 'query-replace-regexp)
 (keymap-global-set "C-s" 'isearch-forward-regexp)
 (keymap-global-set "C-r" 'isearch-backward-regexp)
@@ -173,7 +176,10 @@
 (keymap-global-set "M-l M-n" 'flymake-goto-next-error)
 (keymap-global-set "M-l M-p" 'flymake-goto-prev-error)
 
+(use-package go-mode
+  :ensure t) ; This ensures go-mode is installed and sets up auto-mode-alist
 
+(add-hook 'go-ts-mode-hook 'eglot-ensure)
 (add-hook 'python-ts-mode-hook 'eglot-ensure)
 (add-hook 'js-ts-mode-hook 'eglot-ensure)
 (add-hook 'typescript-ts-mode-hook 'eglot-ensure)

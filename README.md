@@ -31,11 +31,13 @@ Install the following system dependencies, then add the init.el content into you
 2. `M-x package-install <RET> <package_name>`
 3. Install these packages:
    1. `magit`
-   2. `imenu-list`
-   3. `corfu-terminal`
-   4. `vterm`
-   5. `gptel`
-   6. `aidermacs`
+   2. `vundo`
+   3. `imenu-list`
+   4. `corfu-terminal`
+   5. `vterm`
+   6. `xclip`
+   7. `gptel`
+   8. `aidermacs`
 4. Evalute these three expressions in Emacs with `M-:`
 ```
 (setq treesit-language-source-alist
@@ -78,8 +80,9 @@ Install the following system dependencies, then add the init.el content into you
 ```
 5. Save the major mode remapping list in Emacs via `M-x customize-option <RET> major-mode-remap-alist <RET>` and hit the apply and save button
 6. `M-x package-vc-install <RET> https://github.com/jdtsmith/eglot-booster <RET>`
-7. Restart Emacs
-8. Activate Corfu globally in Emacs: `M-x global-corfu-mode`
+7. `M-x toggle-word-wrap` and `M-x toggle-truncate-lines` to fix vterm line truncation issue
+8. Restart Emacs
+9. Activate Corfu globally in Emacs: `M-x global-corfu-mode`
 
 ### Update your init.el
 
@@ -113,7 +116,15 @@ I assume you know the basic Emac hot keys. These are the slightly more advanced 
 
 `C-x r l` - list bookmarks
 
+`C-SPC` - activate mark region
+
+`C-SPC C-SPC` - set mark (deactives mark region)
+
 `C-x C-x` - move to beginning/end of selected region
+
+`C-x C-SPC` - move to last mark region
+
+`C-x left_arrow/right_arrow` - move to prev/next buffer
 
 `F3` - start macro
 
