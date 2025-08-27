@@ -155,6 +155,12 @@
 (use-package markdown-mode
   :ensure t)
 
+(setq markdown-fontify-code-blocks-natively t)
+
+
+
+
+
 (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
 (setq eldoc-echo-area-prefer-doc-buffer t
       eldoc-echo-area-use-multiline-p nil)
@@ -175,12 +181,6 @@
 (keymap-global-set "M-l M-e" 'flymake-show-project-diagnostics)
 (keymap-global-set "M-l M-n" 'flymake-goto-next-error)
 (keymap-global-set "M-l M-p" 'flymake-goto-prev-error)
-
-(keymap-global-set "C-c o h" 'outline-show-only-headings)
-(keymap-global-set "C-c o s" 'outline-show-all)
-(keymap-global-set "C-c o p" 'outline-previous-heading)
-(keymap-global-set "C-c o n" 'outline-next-heading)
-(keymap-global-set "C-c o u" 'outline-up-heading)
 
 (use-package go-mode
   :ensure t) ; This ensures go-mode is installed and sets up auto-mode-alist
@@ -212,6 +212,12 @@
 (keymap-global-set "C-c a DEL" 'gptel-rewrite)
 (keymap-global-set "C-c a +" 'gptel-add-file)
 
+(global-set-key (kbd "C-x O") (lambda ()
+                                (interactive)
+                                (other-window -1)))
+
+
+
 (use-package aidermacs
   :bind (("C-c a a" . aidermacs-transient-menu))
   :config
@@ -225,6 +231,90 @@
   ; See the Configuration section below
   (aidermacs-default-model "openai/Qwen2.5-Coder-32B-Instruct")
   )
+
+
+
+(setq vterm-max-scrollback 100000)
+
+
+;; Outline and Markdown-related functionalities
+(keymap-global-set "C-c s h" 'outline-show-only-headings)
+(keymap-global-set "C-c s s" 'outline-toggle-children)
+(keymap-global-set "C-c s a" 'outline-show-all)
+(keymap-global-set "C-c s p" 'outline-previous-heading)
+(keymap-global-set "C-c s n" 'outline-next-heading)
+(keymap-global-set "C-c s u" 'outline-up-heading)
+
+
+(defun my-copy-markdown-code-block ()
+  "Copy the contents of the fenced Markdown code block at point to the clipboard.
+Supports both ``` and ~~~ fences. Cursor stays in place."
+  (interactive)
+  (save-excursion
+    (let (beg end fence)
+      ;; Search backward from point for an opening fence.
+      ;; The `if` provides better error handling than nested `when`s.
+      (if (re-search-backward "^[ \t]*\\(```+\\|~~~+\\)" nil t)
+          (progn
+            ;; --- Refinement 1: Simplified logic for finding the start ---
+            ;; We found the opening fence. The content starts on the next line.
+            ;; We just move there and set `beg` once.
+            (forward-line 1)
+            (setq beg (point))
+            
+            ;; Capture the fence type to ensure we find a matching closing fence.
+            (setq fence (match-string-no-properties 1))
+            
+            ;; Now, search forward for the matching closing fence.
+            (if (re-search-forward (concat "^[ \t]*" (regexp-quote fence)) nil t)
+                (progn
+                  ;; Found it. The end of our region is the start of this line.
+                  (setq end (match-beginning 0))
+                  (kill-ring-save beg end)
+                  (message "Code block copied to clipboard"))
+              ;; --- Refinement 2: Explicit error message ---
+              ;; If we found an opener but no closer, tell the user.
+              (error "Found opening fence but no matching closing fence")))
+        
+        ;; --- Refinement 2: Explicit error message ---
+        ;; If the backward search failed, we're not in a code block.
+        (error "Point is not in a code block")))))
+
+(defun my-send-markdown-code-block-to-vterm (vterm-buffer-name)
+  "Send the contents of the fenced Markdown code block at point
+to an existing vterm buffer named VTERM-BUFFER-NAME.
+
+Supports both ``` and ~~~ fences. Cursor stays in place."
+  (interactive
+   (list (read-buffer "Send code to vterm buffer: "
+                      (when (get-buffer "*vterm*") "*vterm*")
+                      t)))
+  (save-excursion
+    (let (beg end fence code)
+      ;; Move to start of line
+      (beginning-of-line)
+      ;; Look backward for opening fence
+      (when (re-search-backward "^[ \t]*\\(```+\\|~~~+\\)" nil t)
+        (setq fence (match-string 1))
+        ;; mark start after fence line
+        (forward-line 1)
+        (setq beg (point))
+        ;; Look forward for closing fence
+        (when (re-search-forward (concat "^[ \t]*" (regexp-quote fence)) nil t)
+          (setq end (match-beginning 0))
+          ;; Grab the code
+          (setq code (buffer-substring-no-properties beg end))
+          ;; Send it to vterm
+          (with-current-buffer vterm-buffer-name
+            (goto-char (point-max))
+            (vterm-send-string code)
+            (vterm-send-return))
+          (message "Sent code block to %s" vterm-buffer-name))))))
+
+(define-key markdown-mode-map (kbd "C-c m c") #'my-copy-markdown-code-block)
+(define-key markdown-mode-map (kbd "C-c m s") #'my-send-markdown-code-block-to-vterm)
+
+
 
 
 

@@ -1,6 +1,6 @@
 # Overview
 
-This is my personal emacs set up as of May 19, 2025. I use the following packages:
+This is my personal emacs set up as of May 19, 2025. Tested with Emacs 30.1. I use the following packages:
 
 1. Magit - git management
 2. imenu-list - source code outline
