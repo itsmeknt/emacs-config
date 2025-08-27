@@ -130,6 +130,22 @@ I assume you know the basic Emac hot keys. These are the slightly more advanced 
 
 `F4` - end macro / play back macro
 
+`C-c s h` - collapse everything, showing only headers
+
+`C-c s a` - expand everything
+
+`C-c s s` - toggle hide/show current section
+
+`C-c s n` - jump to the next header
+
+`C-c s p` - jump to the previous header
+
+`C-c s u` - jump to the header above the current one
+
+`C-c m c` - (markdown mode only) copy the code block content the cursor is on
+
+`C-c m s` - (markdown mode only) send the code block content the cursor is on to the vterm buffer
+
 ### Magit hotkeys:
 
 `C-x g` - open magit menu
