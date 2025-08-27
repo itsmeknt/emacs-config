@@ -176,6 +176,12 @@
 (keymap-global-set "M-l M-n" 'flymake-goto-next-error)
 (keymap-global-set "M-l M-p" 'flymake-goto-prev-error)
 
+(keymap-global-set "C-c o h" 'outline-show-only-headings)
+(keymap-global-set "C-c o s" 'outline-show-all)
+(keymap-global-set "C-c o p" 'outline-previous-heading)
+(keymap-global-set "C-c o n" 'outline-next-heading)
+(keymap-global-set "C-c o u" 'outline-up-heading)
+
 (use-package go-mode
   :ensure t) ; This ensures go-mode is installed and sets up auto-mode-alist
 
