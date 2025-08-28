@@ -144,7 +144,9 @@ I assume you know the basic Emac hot keys. These are the slightly more advanced 
 
 `C-c m c` - (markdown mode only) copy the code block content the cursor is on
 
-`C-c m s` - (markdown mode only) send the code block content the cursor is on to the vterm buffer
+`C-c m s` - (markdown mode only) send the code block content the cursor is on to the last buffer
+
+`C-c m e` - (markdown mode only) send and execute the code block content the cursor is on to the vterm buffer
 
 ### Magit hotkeys:
 

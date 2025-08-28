@@ -280,13 +280,44 @@ Supports both ``` and ~~~ fences. Cursor stays in place."
         ;; If the backward search failed, we're not in a code block.
         (error "Point is not in a code block")))))
 
-(defun my-send-markdown-code-block-to-vterm (vterm-buffer-name)
+(defun my-send-markdown-code-block-to-buffer (target-buffer-name)
   "Send the contents of the fenced Markdown code block at point
+to an existing target buffer named TARGET-BUFFER-NAME.
+
+Supports both ``` and ~~~ fences. Cursor stays in place.
+Does NOT send RET/execute automatically."
+  (interactive
+   (list (read-buffer "Send code to buffer: "
+                      (buffer-name (other-buffer (current-buffer) t))
+                      t)))
+  (save-excursion
+    (let (beg end fence code)
+      ;; Move to start of line
+      (beginning-of-line)
+      ;; Look backward for opening fence
+      (when (re-search-backward "^[ \t]*\\(```+\\|~~~+\\)" nil t)
+        (setq fence (match-string 1))
+        ;; mark start after fence line
+        (forward-line 1)
+        (setq beg (point))
+        ;; Look forward for closing fence
+        (when (re-search-forward (concat "^[ \t]*" (regexp-quote fence)) nil t)
+          (setq end (match-beginning 0))
+          ;; Grab the code
+          (setq code (buffer-substring-no-properties beg end))
+          ;; Send it to the chosen buffer
+          (with-current-buffer target-buffer-name
+	    (insert code))
+          (message "Sent code block to %s" target-buffer-name))))))
+
+(defun my-execute-markdown-code-block-in-vterm (vterm-buffer-name)
+  "Execute the contents of the fenced Markdown code block at point
 to an existing vterm buffer named VTERM-BUFFER-NAME.
 
-Supports both ``` and ~~~ fences. Cursor stays in place."
+Supports both ``` and ~~~ fences. Cursor stays in place.
+Sends RET/execute automatically."
   (interactive
-   (list (read-buffer "Send code to vterm buffer: "
+   (list (read-buffer "Execute code to vterm buffer: "
                       (when (get-buffer "*vterm*") "*vterm*")
                       t)))
   (save-excursion
@@ -304,17 +335,16 @@ Supports both ``` and ~~~ fences. Cursor stays in place."
           (setq end (match-beginning 0))
           ;; Grab the code
           (setq code (buffer-substring-no-properties beg end))
-          ;; Send it to vterm
+          ;; Execute it to vterm
           (with-current-buffer vterm-buffer-name
             (goto-char (point-max))
             (vterm-send-string code)
             (vterm-send-return))
-          (message "Sent code block to %s" vterm-buffer-name))))))
+          (message "Executed code block to %s" vterm-buffer-name))))))
 
 (define-key markdown-mode-map (kbd "C-c m c") #'my-copy-markdown-code-block)
-(define-key markdown-mode-map (kbd "C-c m s") #'my-send-markdown-code-block-to-vterm)
-
-
+(define-key markdown-mode-map (kbd "C-c m s") #'my-send-markdown-code-block-to-buffer)
+(define-key markdown-mode-map (kbd "C-c m e") #'my-execute-markdown-code-block-in-vterm)
 
 
 
