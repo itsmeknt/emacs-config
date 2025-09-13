@@ -134,7 +134,9 @@ I assume you know the basic Emac hot keys. These are the slightly more advanced 
 
 `C-c s a` - expand everything
 
-`C-c s s` - toggle hide/show current section
+`C-c s s` - show current section
+
+`C-c s d` - hide current section
 
 `C-c s n` - jump to the next header
 
@@ -211,3 +213,12 @@ Inside the menu:
 `C-c a RET` - send selected text, or if none selected, all text from beginning of buffer up until the cursor, to Gptel
 
 `C-c a DEL` - after highlighting text, this will open a buffer where you can prompt Gptel to rewrite the text (e.g. translate it to another language)
+
+
+# Additional
+
+## Tmux
+
+To use the Tmux settings, the tmux config in `.config/tmux/tmux.conf` should be move to `~/.config/tmux/tmux.conf`.
+
+Then launch Tmux, and do `<prefix> I` (capital I) to install all the plug ins, or `<prefix> U` then `all` (capital U) to update all the existing ones.

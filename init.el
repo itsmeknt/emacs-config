@@ -239,7 +239,8 @@
 
 ;; Outline and Markdown-related functionalities
 (keymap-global-set "C-c s h" 'outline-show-only-headings)
-(keymap-global-set "C-c s s" 'outline-toggle-children)
+(keymap-global-set "C-c s s" 'outline-show-subtree)
+(keymap-global-set "C-c s d" 'outline-hide-subtree)
 (keymap-global-set "C-c s a" 'outline-show-all)
 (keymap-global-set "C-c s p" 'outline-previous-heading)
 (keymap-global-set "C-c s n" 'outline-next-heading)
