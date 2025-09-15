@@ -349,6 +349,17 @@ Sends RET/execute automatically."
 
 
 
+;; Customize the active mode line
+(set-face-attribute 'mode-line nil
+                    :background "#303030"  ;; Dark gray background
+                    :foreground "white"
+                    :box '(:line-width 1 :style released-button :color "#555555")) ;; Optional box styling
+
+;; Customize the inactive mode line
+(set-face-attribute 'mode-line-inactive nil
+                    :background "#101010"  ;; Dark gray background
+                    :foreground "white"
+                    :box '(:line-width 1 :style released-button :color "#444444")) ;; Optional box styling
 
 
 (custom-set-variables
