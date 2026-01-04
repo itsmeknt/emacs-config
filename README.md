@@ -10,8 +10,7 @@ This is my personal emacs set up as of May 19, 2025. Tested with Emacs 30.1. I u
 6. combobulate - structured code navgiation and editing
 7. eglot - LSP for code language analysis
 8. eglot-booster + emacs-lsp-booster - faster eglot performance
-9. gptel - simple and general LLM interface
-10. aidermacs - LLM with source code context for code-specific tasks
+9. aidermacs - LLM with source code context for code-specific tasks
 
 # Installation
 
@@ -23,7 +22,7 @@ Install the following system dependencies, then add the init.el content into you
 2. `git clone https://github.com/mickeynp/combobulate?tab=readme-ov-file  # note the dirpath`
 3. Install the Jedi LSP: https://github.com/pappasam/jedi-language-server
 4. `cargo install emacs-lsp-booster`
-5. The AI features configured in `init.el` (gptel, aidermacs) assume you have a local LLM running via llama.cpp's `llama-server` (OpenAI API-compatible server) on `http://localhost:8080`
+5. The AI features configured in `init.el` (aidermacs) require an API key. It currently assumes Deepseek base URL.
 
 ### Install the following packages in Emacs
 
@@ -36,8 +35,7 @@ Install the following system dependencies, then add the init.el content into you
    4. `corfu-terminal`
    5. `vterm`
    6. `xclip`
-   7. `gptel`
-   8. `aidermacs`
+   7. `aidermacs`
 4. Evalute these three expressions in Emacs with `M-:`
 ```
 (setq treesit-language-source-alist
@@ -206,14 +204,7 @@ Inside the menu:
 
 ### AI hotkeys:
 
-`C-c a a` - open Aidermacs main menu
-
-`C-c a g` - open Gptel buffer
-
-`C-c a RET` - send selected text, or if none selected, all text from beginning of buffer up until the cursor, to Gptel
-
-`C-c a DEL` - after highlighting text, this will open a buffer where you can prompt Gptel to rewrite the text (e.g. translate it to another language)
-
+`C-c a` - open Aidermacs transient menu
 
 # Additional
 

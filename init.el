@@ -77,7 +77,6 @@
 
 
 
-
 (use-package corfu
   ;; Optional customizations
   ;; :custom
@@ -148,14 +147,29 @@
 
 
 
-(use-package eglot-booster
-	:after eglot
-	:config	(eglot-booster-mode))
 
 (use-package markdown-mode
   :ensure t)
 
 (setq markdown-fontify-code-blocks-natively t)
+
+(define-derived-mode tox-chat-mode markdown-mode "ToxChat"
+  "Major mode for .toxchat files, styled like Markdown, with Toxidious."
+  ;; (setq comment-start "# ")
+  )
+(add-to-list 'auto-mode-alist '("\\.toxchat\\'" . tox-chat-mode))
+(use-package eglot-booster
+	:after eglot
+	:config	(eglot-booster-mode)
+	
+	;;(add-to-list 'eglot-server-programs
+	;;	     '(python-base-mode . ("localhost" 8282)))
+
+)
+
+
+
+
 
 
 
@@ -175,7 +189,7 @@
 (keymap-global-set "C-r" 'isearch-backward-regexp)
 
 (global-set-key (kbd "M-l") nil)
-(keymap-global-set "M-." 'xref-find-definitions-other-window)
+(keymap-global-set "M-l M-a" 'eglot-code-actions)
 (keymap-global-set "M-l M-l" 'imenu-list-smart-toggle)
 (keymap-global-set "M-l M-r" 'eglot-rename)
 (keymap-global-set "M-l M-e" 'flymake-show-project-diagnostics)
@@ -190,51 +204,59 @@
 (add-hook 'js-ts-mode-hook 'eglot-ensure)
 (add-hook 'typescript-ts-mode-hook 'eglot-ensure)
 
-
-
-;; Llama.cpp offers an OpenAI compatible API
-(gptel-make-openai "llama-cpp"          ;Any name
-  :stream t                             ;Stream responses
-  :protocol "http"
-  :host "localhost:8080"                ;Llama.cpp server location
-  :models '(bartowski_Qwen2.5-Coder-32B-Instruct-GGUF_Qwen2.5-Coder-32B-Instruct-IQ4_XS.gguf))                    ;Any names, doesn't matter for Llama
-
-(setq
- gptel-model   'bartowski_Qwen2.5-Coder-32B-Instruct-GGUF_Qwen2.5-Coder-32B-Instruct-IQ4_XS.gguf
- gptel-backend (gptel-make-openai "llama-cpp"
-                 :stream t
-                 :protocol "http"
-                 :host "localhost:8080"
-                 :models '(bartowski_Qwen2.5-Coder-32B-Instruct-GGUF_Qwen2.5-Coder-32B-Instruct-IQ4_XS.gguf)))
-
-(keymap-global-set "C-c a g" 'gptel)
-(keymap-global-set "C-c a RET" 'gptel-send)
-(keymap-global-set "C-c a DEL" 'gptel-rewrite)
-(keymap-global-set "C-c a +" 'gptel-add-file)
-
 (global-set-key (kbd "C-x O") (lambda ()
                                 (interactive)
                                 (other-window -1)))
 
 
-
 (use-package aidermacs
-  :bind (("C-c a a" . aidermacs-transient-menu))
+  :bind (("C-c a" . aidermacs-transient-menu))
   :config
   ; Set API_KEY in .bashrc, that will automatically picked up by aider or in elisp
   ;; (setenv "ANTHROPIC_API_KEY" "sk-...")
   ; defun my-get-openrouter-api-key yourself elsewhere for security reasons
   ;; (setenv "OPENROUTER_API_KEY" (my-get-openrouter-api-key))
-  (setq aidermacs-extra-args '("--openai-api-base" "http://localhost:8080" "--openai-api-key" "NONE"))
+  ;; (setq aidermacs-extra-args '("--openai-api-base" "http://localhost:8080" "--openai-api-key" "NONE"))
+  (setq aidermacs-extra-args '("--openai-api-base" "https://api.deepseek.com/v1" "--openai-api-key" "INSERT_API_KEY_HERE"))
+
+  ;; Use vterm backend (default is comint)
+  (setq aidermacs-backend 'vterm)
+
+  ;; Enable file watching
+  (setq aidermacs-watch-files t)
   
   :custom
   ; See the Configuration section below
-  (aidermacs-default-model "openai/Qwen2.5-Coder-32B-Instruct")
+  ;; (aidermacs-default-model "openai/Qwen2.5-Coder-32B-Instruct")
+  (aidermacs-default-model "openai/deepseek-reasoner")
+  (aidermacs-weak-model "openai/deepseek-chat")
   )
 
 
 
+(with-eval-after-load 'aidermacs
+  ;; We use 'append' here so we don't delete your API keys or other settings.
+  (setq aidermacs-args 
+        (append aidermacs-args 
+                '(;; Chat Colors (Fixes 'faded' look)
+                  "--user-input-color=#ffffff"       ; White
+                  "--tool-output-color=#88bbff"      ; Light blue
+                  "--assistant-output-color=#ffff00" ; Light yellow
+		  		  
+                  ;; Menu Colors (Fixes the new Warnings you see)
+                  ;; We map these to standard terminal colors (White text on dark gray bg)
+                  "--completion-menu-color=#ffffff" 
+                  "--completion-menu-bg-color=#262626"
+                  "--completion-menu-current-color=#00ff00"))))
+
+
+
+
+
+
 (setq vterm-max-scrollback 100000)
+
+
 
 
 ;; Outline and Markdown-related functionalities
@@ -352,7 +374,7 @@ Sends RET/execute automatically."
 ;; Customize the active mode line
 (set-face-attribute 'mode-line nil
                     :background "#303030"  ;; Dark gray background
-                    :foreground "white"
+                    :foreground "yellow"
                     :box '(:line-width 1 :style released-button :color "#555555")) ;; Optional box styling
 
 ;; Customize the inactive mode line
@@ -361,12 +383,16 @@ Sends RET/execute automatically."
                     :foreground "white"
                     :box '(:line-width 1 :style released-button :color "#444444")) ;; Optional box styling
 
+ 
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(combobulate-python-indent-blocks-dwim nil)
+ '(combobulate-python-indent-mark-region nil)
+ '(combobulate-python-smart-indent nil)
  '(major-mode-remap-alist
    '((bash-mode . bash-ts-mode) (conf-toml-mode . toml-ts-mode)
      (css-mode . css-ts-mode) (go-mode . go-ts-mode)
@@ -376,7 +402,10 @@ Sends RET/execute automatically."
      (html-mode . html-ts-mode) (mhtml-mode . html-ts-mode)
      (python-mode . python-ts-mode)
      (typescript-mode . typescript-ts-mode) (yaml-mode . yaml-ts-mode)))
- '(package-selected-packages '(aidermacs eglot-booster gptel vterm yasnippet))
+ '(package-selected-packages
+   '(aidermacs corfu-terminal eglot-booster expand-region go-mode
+	       imenu-list magit markdown-ts-mode vterm vundo
+	       web-server websocket xclip yasnippet))
  '(package-vc-selected-packages
    '((eglot-booster :vc-backend Git :url
 		    "https://github.com/jdtsmith/eglot-booster"))))
