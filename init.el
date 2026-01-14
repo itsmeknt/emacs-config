@@ -145,8 +145,13 @@
 (unless (display-graphic-p)
   (corfu-terminal-mode +1))
 
+(use-package flycheck
+  :ensure t)
 
-
+(use-package eglot
+  :ensure t
+  :hook ((python-mode . eglot-ensure)
+         (go-mode . eglot-ensure)))
 
 (use-package markdown-mode
   :ensure t)
@@ -167,7 +172,10 @@
 
 )
 
-
+(use-package flycheck-eglot
+  :ensure t
+  :after (flycheck eglot)
+  :config (global-flycheck-eglot-mode 1))
 
 
 
@@ -192,9 +200,13 @@
 (keymap-global-set "M-l M-a" 'eglot-code-actions)
 (keymap-global-set "M-l M-l" 'imenu-list-smart-toggle)
 (keymap-global-set "M-l M-r" 'eglot-rename)
-(keymap-global-set "M-l M-e" 'flymake-show-project-diagnostics)
-(keymap-global-set "M-l M-n" 'flymake-goto-next-error)
-(keymap-global-set "M-l M-p" 'flymake-goto-prev-error)
+
+;; (keymap-global-set "M-l M-e" 'flymake-show-project-diagnostics)
+;; (keymap-global-set "M-l M-n" 'flymake-goto-next-error)
+;; (keymap-global-set "M-l M-p" 'flymake-goto-prev-error)
+(keymap-global-set "M-l M-e" 'flycheck-list-errors)
+(keymap-global-set "M-l M-n" 'flycheck-next-error)
+(keymap-global-set "M-l M-p" 'flycheck-previous-error)
 
 (use-package go-mode
   :ensure t) ; This ensures go-mode is installed and sets up auto-mode-alist
@@ -217,7 +229,7 @@
   ; defun my-get-openrouter-api-key yourself elsewhere for security reasons
   ;; (setenv "OPENROUTER_API_KEY" (my-get-openrouter-api-key))
   ;; (setq aidermacs-extra-args '("--openai-api-base" "http://localhost:8080" "--openai-api-key" "NONE"))
-  (setq aidermacs-extra-args '("--openai-api-base" "https://api.deepseek.com/v1" "--openai-api-key" "INSERT_API_KEY_HERE"))
+  (setq aidermacs-extra-args '("--openai-api-base" "https://api.deepseek.com/v1" "--openai-api-key" "sk-2529774adff04b49920932886e42554a"))
 
   ;; Use vterm backend (default is comint)
   (setq aidermacs-backend 'vterm)
@@ -403,9 +415,10 @@ Sends RET/execute automatically."
      (python-mode . python-ts-mode)
      (typescript-mode . typescript-ts-mode) (yaml-mode . yaml-ts-mode)))
  '(package-selected-packages
-   '(aidermacs corfu-terminal eglot-booster expand-region go-mode
-	       imenu-list magit markdown-ts-mode vterm vundo
-	       web-server websocket xclip yasnippet))
+   '(aidermacs corfu-terminal eglot-booster expand-region flycheck
+	       flycheck-eglot go-mode gptel imenu-list magit
+	       markdown-ts-mode vterm vundo web-server websocket xclip
+	       yasnippet))
  '(package-vc-selected-packages
    '((eglot-booster :vc-backend Git :url
 		    "https://github.com/jdtsmith/eglot-booster"))))
