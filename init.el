@@ -395,7 +395,14 @@ Sends RET/execute automatically."
                     :foreground "white"
                     :box '(:line-width 1 :style released-button :color "#444444")) ;; Optional box styling
 
- 
+
+
+
+;; Prevent deletes from entering the kill ring / clipboard in minibuffers
+(defun my-minibuffer-disable-kill-ring ()
+  (setq-local kill-ring nil))
+
+(add-hook 'minibuffer-setup-hook #'my-minibuffer-disable-kill-ring)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
