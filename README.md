@@ -24,11 +24,16 @@ Install the following system dependencies, then add the init.el content into you
 4. `cargo install emacs-lsp-booster`
 5. The AI features configured in `init.el` (aidermacs) require an API key. It currently assumes Deepseek base URL.
 
+### Update the init.el of Emacs
+
+Download the init.el from this repo and move it to the init script of Emacs (typically `~/.emacs` itself or `~/.emacs.d/init.el`)
+
 ### Install the following packages in Emacs
 
 1. Open emacs
-2. `M-x package-install <RET> <package_name>`
-3. Install these packages:
+2. `M-x package-refresh-contents`
+3. `M-x package-install <RET> <package_name>`
+4. Install these packages:
    1. `magit`
    2. `vundo`
    3. `imenu-list`
@@ -36,7 +41,7 @@ Install the following system dependencies, then add the init.el content into you
    5. `vterm`
    6. `xclip`
    7. `aidermacs`
-4. Evalute these three expressions in Emacs with `M-:`
+5. Evalute these three expressions in Emacs with `M-:`
 ```
 (setq treesit-language-source-alist
    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
