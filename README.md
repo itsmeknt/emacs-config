@@ -19,8 +19,8 @@ Install the following system dependencies, then add the init.el content into you
 ### System Dependencies
 
 1. `sudo apt install vterm-dev`
-2. `git clone https://github.com/mickeynp/combobulate?tab=readme-ov-file  # note the dirpath`
-3. Install the Jedi LSP: https://github.com/pappasam/jedi-language-server
+2. `git clone git@github.com:mickeynp/combobulate.git`
+3. Install BasedPyright LSP: `pip install basedpyright`
 4. `cargo install emacs-lsp-booster`
 5. The AI features configured in `init.el` (aidermacs) require an API key. It currently assumes Deepseek base URL.
 
